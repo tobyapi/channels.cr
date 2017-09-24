@@ -2,7 +2,7 @@
 
 This Project is Working in Progress.
 
-Extensions for Crystal Channel inspired by Golang library [channles](https://github.com/eapache/channels).
+Extensions for Crystal Channel inspired by Golang library [channels](https://github.com/eapache/channels).
 
 ## Installation
 
@@ -39,4 +39,4 @@ TODO: Write development instructions here
 - [tobias](https://github.com/TobiasGSmollett) tobias - creator, maintainer
 
 ## Acknowledgments
-Inspired by [channles](https://github.com/eapache/channels).
+Inspired by [channels](https://github.com/eapache/channels).
