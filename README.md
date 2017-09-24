@@ -39,4 +39,4 @@ TODO: Write development instructions here
 - [tobias](https://github.com/TobiasGSmollett) tobias - creator, maintainer
 
 ## Acknowledgments
-Inspired by 
+Inspired by [channles](https://github.com/eapache/channels).
