@@ -5,7 +5,7 @@ module Channels
     pipe(input, ->(a : A){ a }, output, close_when_done)
   end
   
-  def pipe(input : Channel(A), f : Proc(A, A), output : Channel(A), close_when_done : Bool = true) forall A
+  def pipe(input : Channel(A), f : Proc(A, B), output : Channel(B), close_when_done : Bool = true) forall A, B
     spawn do
       while elem = input.receive
         output.send f.call(elem)
@@ -18,7 +18,7 @@ module Channels
     multiplex(inputs, ->(a : A){ a }, output, close_when_done)
   end
   
-  def multiplex(inputs : Array(Channel(A)), f : Proc(A, A), output : Channel(A), close_when_done : Bool = true) forall A
+  def multiplex(inputs : Array(Channel(A)), f : Proc(A, B), output : Channel(B), close_when_done : Bool = true) forall A, B
     spawn do
       finish = Channel(Bool).new
       inputs.each do |input|
@@ -44,7 +44,7 @@ module Channels
     tee(input, ->(a : A){ a }, outputs, close_when_done)
   end
   
-  def tee(input : Channel(A), f : Proc(A, A), outputs : Array(Channel(A)), close_when_done : Bool = true) forall A
+  def tee(input : Channel(A), f : Proc(A, B), outputs : Array(Channel(B)), close_when_done : Bool = true) forall A, B
     spawn do
       while elem = input.receive
         outputs.each { |output| output.send f.call(elem) }
