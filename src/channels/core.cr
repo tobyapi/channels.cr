@@ -31,4 +31,13 @@ module Channels
       end
     end
   end
+  
+  def tee(input : Channel(A), outputs : Array(Channel(A)), close_when_done : Bool = true) forall A
+    spawn do
+      while elem = input.receive
+        outputs.each { |output| output.send elem  }
+      end
+      outputs.each { |output| output.close } if close_when_done
+    end
+  end
 end
