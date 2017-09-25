@@ -1,11 +1,6 @@
 require "./spec_helper"
 
 describe Channels do
-  # TODO: Write tests
-
-  it "works" do
-    false.should eq(true)
-  end
   
   it "pipe" do
     a = Channel(Int32).new
@@ -29,7 +24,6 @@ describe Channels do
     spawn do
       index = rand(inputs.size)
       (1..1000).each { |i| inputs[index].send i }
-      inputs.each { |input| input.close }
     end
     
     (1..1000).each do |i|
@@ -53,6 +47,7 @@ describe Channels do
       (1..1000).each { |i| input.send i }
       input.close
     end
+    
     (1..1000).each do |i|
       outputs.each do |output|
         true.should eq(i == output.receive)

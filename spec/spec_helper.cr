@@ -21,6 +21,5 @@ def test_channel_pair(input, output)
   (1..1000).each do |i|
      return false if i != output.receive
   end
-  output.close
   true  
 end
