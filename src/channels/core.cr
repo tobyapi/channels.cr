@@ -52,4 +52,48 @@ module Channels
       outputs.each { |output| output.close } if close_when_done
     end
   end
+  
+  def distribute(input : Channel(A), outputs : Array(Channel(A)), close_when_done : Bool = true) forall A
+    distribute(input, ->(a : A){ a }, outputs, close_when_done)
+  end
+  
+  def destribute(input : Channel(A), f : Proc(A, B), outputs : Array(Channel(B)), close_when_done : Bool = true) forall A, B
+    spawn do
+      while elem = input.receive
+        outputs.sample.send f.call(elem)
+      end
+      outputs.each { |output| output.close } if close_when_done
+    end
+  end
+  
+  def round_robin(input : Channel(A), outputs : Array(Channel(A)), close_when_done : Bool = true) forall A
+    round_robin(input, ->(a : A){ a }, outputs, close_when_done)
+  end
+  
+  def round_robin(input : Channel(A), f : Proc(A, B), outputs : Array(Channel(B)), close_when_done : Bool = true) forall A, B
+    spawn do
+      index = 0
+      while elem = input.receive
+        outputs[index].send f.call(elem)
+        index = index.succ % outputs.size
+      end
+      outputs.each { |output| output.close } if close_when_done
+    end
+  end
+  
+  def async(f : A -> B): A -> Channel(B) forall A, B
+    Proc(A,Channel(B)).new do |a|
+      b = Channel(B).new
+      spawn { b.send f.call(a) }
+      return b
+    end
+  end
+  
+  def lift(f : A -> B): Channel(A) -> Channel(B) forall A, B
+    Proc(Channel(A), Channel(B)).new do |a|
+      b = Channel(B).new
+      Channels.pipe(a, f, b)
+      return b
+    end
+  end
 end
