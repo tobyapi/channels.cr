@@ -1,8 +1,8 @@
 module Channels
-  class RingChannel(T) < Channel::Buffered(T)
+  class RingChannel(T) < Channel::Buffered(T)   
     def send(value : T)
-      @queue.shift? if @queue.full?      
-      previous_def value
+      @queue.shift? if full? 
+      previous_def send value
     end
   end
 end
