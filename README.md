@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/TobiasGSmollett/channels.cr.svg?branch=master)](https://travis-ci.org/TobiasGSmollett/channels.cr)
+
 # channels.cr
 
 This Project is Working in Progress.
