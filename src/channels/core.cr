@@ -57,7 +57,7 @@ module Channels
     distribute(input, ->(a : A){ a }, outputs, close_when_done)
   end
   
-  def destribute(input : Channel(A), f : Proc(A, B), outputs : Array(Channel(B)), close_when_done : Bool = true) forall A, B
+  def distribute(input : Channel(A), f : Proc(A, B), outputs : Array(Channel(B)), close_when_done : Bool = true) forall A, B
     spawn do
       while elem = input.receive
         outputs.sample.send f.call(elem)
